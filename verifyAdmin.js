@@ -1,4 +1,4 @@
-import User from "./models/User.js";
+import User from "./Models/User.js";
 import { createError } from "./error.js";
 export const verifyAdmin = async (req, res, next) => {
     try {
