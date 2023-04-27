@@ -21,8 +21,9 @@ export const deleteComment = async (req, res, next) => {
     const photo = await Photo.findById(comment.photoId);
     if(video!==null){
       if (req.user.id === comment.userId || req.user.id === video.userId) {
-        await Comment.findByIdAndDelete(req.params.id);
-        res.status(200).json("The comment has been deleted.");
+        const deletedComment=await Comment.findByIdAndDelete(req.params.id);
+        console.log(deletedComment)
+        res.status(200).json(deletedComment);
       } else {
         return next(createError(403, "You can delete ony your comment!"));
       }
