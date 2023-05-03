@@ -24,8 +24,8 @@ export let signup = async (req, res, next) => {
       userId:signup._id,
       token:crypto.randomBytes(32).toString("hex")
     }).save();
-    const url=`${process.env.BASE_URL}users/verify/${token.token}`;
-    await sendEmail(user.email,"Verification email",emailTemplate(url,"To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.","Please verify","your email address","Thanks for joining IIITU Snapshot"))
+    const url=`${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`;
+    await sendEmail(newUser.email,"Verification email",emailTemplate(url,"To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.","Please verify","your email address","Thanks for joining IIITU Snapshot"))
 
     res.status(200).send("An email has been sent to you verify it for further process!");
   } catch (err) {
@@ -58,10 +58,10 @@ export const signin = async (req, res, next) => {
 				.send({ message: "An Email sent to your account please verify" });
 		}
 
-    var token = jwt.sign({ id: user._id }, process.env.JWT);  //assigning a token to user
+    var access_token = jwt.sign({ id: user._id }, process.env.JWT);  //assigning a token to user
     var { password, ...others } = user._doc;  //stopping to send password
     res
-      .cookie("access_token", token, {  //sending token as cookie as acess token
+      .cookie("access_token", access_token, {  //sending token as cookie as acess token
         httpOnly: true,  
         // secure:true,
       });

@@ -26,6 +26,7 @@ export const update = async (req, res, next) => {
     }
   } else {
     return next(createError(403, "You can update only your account!"));
+    console.log(error);
   }
 };
 
