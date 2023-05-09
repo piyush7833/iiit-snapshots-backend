@@ -34,7 +34,7 @@ export const instance = new Razorpay({
   });
 
 app.use(cors({
-    origin:"http://localhost:3000/",
+    origin:"/iiitusnapshotbackend.onrender.com/api/au",
     credentials:true
 }));
 app.use(cookieParser())
