@@ -62,7 +62,7 @@ export const signin = async (req, res, next) => {
     var { password, ...others } = user._doc;  //stopping to send password
     res
       .cookie("access_token", access_token, {  //sending token as cookie as acess token
-        httpOnly: true,  
+        // httpOnly: true,  
         // secure:true,
       });
       res
