@@ -61,10 +61,7 @@ export const signin = async (req, res, next) => {
     var access_token = jwt.sign({ id: user._id }, process.env.JWT);  //assigning a token to user
     var { password, ...others } = user._doc;  //stopping to send password
     res
-      .cookie("access_token", access_token, {  //sending token as cookie as acess token
-        // httpOnly: true,  
-        // secure:true,
-      });
+      .cookie("access_token", access_token);
       res
       .status(200)
       .json(others);
@@ -88,9 +85,9 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT);
+      const access_token = jwt.sign({ id: user._id }, process.env.JWT);
       res
-        .cookie("access_token", token, {
+        .cookie("access_token", access_token, {
           // httpOnly: true,
           // secure:true,
         })
@@ -102,9 +99,9 @@ export const googleAuth = async (req, res, next) => {
         fromGoogle: true,
       });
       const savedUser = await newUser.save();
-      const token = jwt.sign({ id: savedUser._id }, process.env.JWT);
+      const access_token = jwt.sign({ id: savedUser._id }, process.env.JWT);
       res
-        .cookie("access_token", token, {
+        .cookie("access_token", access_token, {
           // httpOnly: true,
         })
         .status(200)
