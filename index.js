@@ -26,41 +26,45 @@ const connect = () => {
         .catch((err) => {
             throw err;
         });
-}; 
+};
 
 export const instance = new Razorpay({
     key_id: process.env.RZP_KEY_ID,
     key_secret: process.env.RZP_SECRET_KEY,
-  });
+});
 
 app.use(cors({
-    origin:true,
-    credentials:true
+    origin: true,
+    credentials: true
 }));
 app.use(cookieParser())
 app.use(express.json())  //without this our APP will not accept json from any external source
-app.use(express.urlencoded({extended :true}))  //without this our APP will not accept json from any external source
-app.use("/api/auth",authRoutes)
-app.use("/api/users",userRoutes)
-app.use("/api/videos",videoRoutes)
-app.use("/api/comments",commentRoutes)
-app.use("/api/photos",photoRoutes)
-app.use("/api/pay",payRoutes)
-app.use("/api/contacts",contactRoutes)
+app.use(express.urlencoded({ extended: true }))  //without this our APP will not accept json from any external source
+app.use("/api/auth", authRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/videos", videoRoutes)
+app.use("/api/comments", commentRoutes)
+app.use("/api/photos", photoRoutes)
+app.use("/api/pay", payRoutes)
+app.use("/api/contacts", contactRoutes)
 
-app.get("/api/getkey", (req,res,next)=>res.status(200).json({key:process.env.RZP_KEY_ID}))
+app.get("/api/getkey", (req, res, next) => res.status(200).json({ key: process.env.RZP_KEY_ID }))
 
-app.use((err,req,res,next)=>{      //for catching error in most useful way   //error.js is created for handling error in customised way without it error handling can be done
-    const status=err.status || 500;
-    const message=err.message || "something went wrong";
+app.use((err, req, res, next) => {      //for catching error in most useful way   //error.js is created for handling error in customised way without it error handling can be done
+    const status = err.status || 500;
+    const message = err.message || "something went wrong";
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
     return res.status(status).json({
-        success:false,
-        status:status,
-        message:message,
-        credentials:true
+        success: false,
+        status: status,
+        message: message
     })
 })
 app.listen(8800, () => {
     connect();
     console.log("Connected to Server");
-  });
+});
