@@ -73,7 +73,7 @@ export const signout = async (req, res, next) => {
   try {
     const user = null;
     res
-      .cookie("access_token",null)
+      .cookie("access_token","")
       .status(200)
       .json("Logout");
   
