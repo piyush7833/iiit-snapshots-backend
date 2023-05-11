@@ -34,7 +34,7 @@ export const instance = new Razorpay({
 });
 
 app.use(cors({
-    origin: true,
+    origin: ['http://localhost:3000', 'https://example.com'],
     credentials: true
 }));
 app.use(cookieParser())
