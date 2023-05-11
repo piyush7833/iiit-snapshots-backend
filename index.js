@@ -53,7 +53,7 @@ app.get("/api/getkey", (req, res, next) => res.status(200).json({ key: process.e
 app.use((err, req, res, next) => {      //for catching error in most useful way   //error.js is created for handling error in customised way without it error handling can be done
     const status = err.status || 500;
     const message = err.message || "something went wrong";
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
     res.setHeader('Access-Control-Allow-Credentials', true);
