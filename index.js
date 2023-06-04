@@ -69,11 +69,11 @@ app.get("/api/getkey", (req, res, next) => res.status(200).json({ key: process.e
 app.use((err, req, res, next) => { 
     const status = err.status || 500;
     const message = err.message || "something went wrong";
-    // res.setHeader('Access-Control-Allow-Origin', `http://localhost:3000`);
-    // res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
-    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
-    // res.setHeader('Access-Control-Allow-Credentials', true);
-    // res.setHeader('Access-Control-Expose-Headers', 'Authorization');
+    res.setHeader('Access-Control-Allow-Origin', `http://localhost:3000`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Expose-Headers', 'Authorization');
     
     return res.status(status).json({
         success: false,
@@ -84,13 +84,13 @@ app.use((err, req, res, next) => {
 
 
 // // Add the following middleware to handle preflight requests
-// app.options('*', cors({
-//     origin: ['http://localhost:3000', 'https://example.com'],
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-//     credentials: true,
-//     preflightContinue: true
-// }));
+app.options('*', cors({
+    origin: ['http://localhost:3000', 'https://example.com'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    credentials: true,
+    preflightContinue: true
+}));
 
 app.listen(8800, () => {
     connect();
