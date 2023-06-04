@@ -32,10 +32,11 @@ export const instance = new Razorpay({
     key_secret: process.env.RZP_SECRET_KEY,
 });
 
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
+// app.use(cors({
+//     origin: true,
+//     credentials: true
+// }));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
