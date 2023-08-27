@@ -8,6 +8,7 @@ import Token from '../Models/Token.js'
 import sendEmail from "../sendEmail.js";
 import crypto from 'crypto'
 import dotenv from "dotenv"
+import emailTemplate from "../emailTemplate.js";
 dotenv.config();
 // const http = require('http');
 // const querystring = require('querystring');
@@ -24,11 +25,12 @@ export let signup = async (req, res, next) => {
       userId: signup._id,
       token: crypto.randomBytes(32).toString("hex")
     }).save();
-    const url = `${process.env.BASE_URL}users/verify/${token.token}`;
+    const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`;
     await sendEmail(newUser.email, "Verification email", emailTemplate(url, "To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.", "Please verify", "your email address", "Thanks for joining IIITU Snapshot"))
 
     res.status(200).send("An email has been sent to you verify it for further process!");
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };
