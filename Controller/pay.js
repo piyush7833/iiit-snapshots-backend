@@ -13,7 +13,7 @@ export const checkout=async(req,res,next)=>{
     month=req.body.month;
     let amount;
     if(month===1){
-      amount=230*100;
+      amount=1*100;
     }
     else if(month===3){
       amount=620*100;
