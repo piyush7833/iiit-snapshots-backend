@@ -32,7 +32,7 @@ export const instance = new Razorpay({
     key_secret: process.env.RZP_SECRET_KEY,
 });
 
-const allowedOrigins = ['http://localhost:3000', 'https://iiitusnapshots.netlify.app/']; // Add your frontend URLs
+const allowedOrigins = ['http://localhost:3000', 'https://iiitusnapshots.netlify.app','https://iiitu-snapshots-frontend.vercel.app']; // Add your frontend URLs
 
 
 app.use(cors({
