@@ -63,7 +63,7 @@ export const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {  //sending token as cookie as acess token
         // httpOnly: true,  
-        // secure:true,
+        secure:true,
       });
       res
       .status(200)
@@ -95,7 +95,7 @@ export const googleAuth = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           // httpOnly: true,
-          // secure:true,
+          secure:true,
         })
         .status(200)
         .json(user._doc);
