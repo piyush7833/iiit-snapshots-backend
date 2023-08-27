@@ -25,7 +25,7 @@ export let signup = async (req, res, next) => {
       token:crypto.randomBytes(32).toString("hex")
     }).save();
     const url=`${process.env.BASE_URL}users/verify/${token.token}`;
-    await sendEmail(user.email,"Verification email",emailTemplate(url,"To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.","Please verify","your email address","Thanks for joining IIITU Snapshot"))
+    await sendEmail(newUser.email,"Verification email",emailTemplate(url,"To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.","Please verify","your email address","Thanks for joining IIITU Snapshot"))
 
     res.status(200).send("An email has been sent to you verify it for further process!");
   } catch (err) {
@@ -62,7 +62,7 @@ export const signin = async (req, res, next) => {
     var { password, ...others } = user._doc;  //stopping to send password
     res
       .cookie("access_token", token, {  //sending token as cookie as acess token
-        httpOnly: true,  
+        // httpOnly: true,  
         // secure:true,
       });
       res
@@ -76,6 +76,9 @@ export const signout = async (req, res, next) => {
   try {
     const user = null;
     res
+      .cookie("access_token","null",{
+
+      })
       .status(200)
       .json("Logout");
   
@@ -105,7 +108,7 @@ export const googleAuth = async (req, res, next) => {
       const token = jwt.sign({ id: savedUser._id }, process.env.JWT);
       res
         .cookie("access_token", token, {
-          httpOnly: true,
+          // httpOnly: true,
         })
         .status(200)
         .json(savedUser._doc);

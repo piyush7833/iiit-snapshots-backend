@@ -34,18 +34,13 @@ export const instance = new Razorpay({
 
 const allowedOrigins = ['http://localhost:3000', 'https://iiitusnapshots.netlify.app/']; // Add your frontend URLs
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true // Allow cookies to be sent
-};
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true // Allow cookies to be sent
+}));
+
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
