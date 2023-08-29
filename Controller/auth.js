@@ -26,7 +26,7 @@ export let signup = async (req, res, next) => {
       token: crypto.randomBytes(32).toString("hex")
     }).save();
     const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`;
-    await sendEmail(newUser.email, "Verification email", emailTemplate(url, "To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.", "Please verify", "your email address", "Thanks for joining IIITU Snapshot"))
+    await sendEmail(newUser.email, "Verification email", emailTemplate(url, "Verify Your Email Address",newUser.Normalname,"Thank you for signing up for IIITU Snapshot! To get started, please click the button below to verify your email address","Verify Email","If you didn't sign up for IIITU Snapshot, you can safely ignore this email."))
 
     res.status(200).send("An email has been sent to you verify it for further process!");
   } catch (err) {
@@ -52,7 +52,7 @@ export const signin = async (req, res, next) => {
         }).save();
       }
       const url = `${process.env.BASE_URL}users/${user._id}/verify/${token.token}`;
-      await sendEmail(user.email, "Verification email", emailTemplate(url, "To finish signing up, please verify your email address. This ensures we have the right email in case we need to contact you.", "Please verify", "your email address", "Thanks for joining IIITU Snapshot"))
+      await sendEmail(user.email, "Verification email", emailTemplate(url, "Verify Your Email Address",user.Normalname,"Thank you for signing up for IIITU Snapshot! To get started, please click the button below to verify your email address","Verify Email","If you didn't sign up for IIITU Snapshot, you can safely ignore this email."))
 
 
       return res

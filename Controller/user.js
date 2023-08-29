@@ -287,7 +287,7 @@ export const resetPasswordEmail=async(req,res,next)=>{
       }).save();
     }
       const url = `${process.env.BASE_URL}users/${user._id}/reset/${resetToken.resetToken}`;
-      await sendEmail(user.email,"Recovery email",emailTemplate(url,"Welcome back to IIITU Snapshot","Recover","your account","To get back to us , Reset your password"))
+      await sendEmail(user.email,"Recovery email",emailTemplate(url,"Change Your Password",user.Normalname,"Welcome back to IIITU Snapshots click on the link to change your paasword","Change Password","If you didn't want to change password for IIITU Snapshot, you can safely ignore this email."))
       return res
       .status(200)
       .send({ message: "An Email sent to your account please reset your password for catching up " });

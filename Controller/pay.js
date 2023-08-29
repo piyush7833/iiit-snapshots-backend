@@ -13,7 +13,7 @@ export const checkout=async(req,res,next)=>{
     month=req.body.month;
     let amount;
     if(month===1){
-      amount=1*100;
+      amount=230*100;
     }
     else if(month===3){
       amount=620*100;
@@ -68,7 +68,7 @@ export const paymemtVerification=async(req,res,next)=>{
         razorpay_signature
       })
 
-      res.redirect(`https://iiitu-snapshots-frontend.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`)
+      res.redirect(`http:localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`)
     }
     else{
       res.status(400).json("Payment is not valid")
