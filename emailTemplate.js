@@ -80,7 +80,7 @@ const emailTemplate=(url,subject,userName,para,task,ignore)=>(`
             <h2 style="color: #e74c3c;">${subject}</h2>
             <p>Hello <strong> ${userName} </strong>,</p>
             <p>${para}</p>
-            <p><a href="[VerificationLink]" class="verification-button">${task}</a></p>
+            <p><a href=${url} class="verification-button">${task}</a></p>
             <p>${ignore}</p>
             <p style="font-style: italic;">Best regards,<br>IIITU Snapshot Team</p>
         </div>
