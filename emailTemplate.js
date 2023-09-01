@@ -49,6 +49,7 @@ const emailTemplate=(url,subject,userName,para,task,ignore)=>(`
         }
         .verification-button:hover {
             border-radius: 1.3rem;
+            text-decoration:none;
         }
         .footer {
             display: flex;
