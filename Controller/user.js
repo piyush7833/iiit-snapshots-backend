@@ -34,6 +34,10 @@ export const update = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.id);
+    const photos=await Photo.find({userId:req.params.id});
+    photos.deleteMany();
+    const videos=await Video.find({userId:req.params.id});
+    videos.deleteMany();
     res.status(200).json("User has been deleted.");
   } catch (err) {
     next(err);
@@ -293,7 +297,7 @@ export const resetPasswordEmail=async(req,res,next)=>{
       .send({ message: "An Email sent to your account please reset your password for catching up " });
   } 
   catch (error) {
-    console.log(error);
+    // console.log(error);
     next(error);
   }
 }
@@ -311,7 +315,7 @@ export const resetPasswordVerify=async(req,res,next)=>{
     res.status(200).json("updated");  //sending updated data to user
   } catch (error) {
     next(error);
-    console.log(error)
+    // console.log(error)
   }
 }
 export const resetPassword=async(req,res,next)=>{
@@ -329,6 +333,6 @@ export const resetPassword=async(req,res,next)=>{
     res.status(200).json(updatedPwd);  //sending updated data to user
   } catch (error) {
     next(error);
-    console.log(error)
+    // console.log(error)
   }
 }

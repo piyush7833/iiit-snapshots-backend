@@ -43,7 +43,7 @@ export const deleteComment = async (req, res, next) => {
 export const getVideoComments = async (req, res, next) => {
   try {
     let comments;
-      comments = await Comment.find({ videoId: req.params.videoId });
+      comments = await Comment.find({ videoId: req.params.videoId }).sort(createdAt);
     res.status(200).json(comments);
   } catch (err) {
     next(err);
@@ -51,7 +51,7 @@ export const getVideoComments = async (req, res, next) => {
 };
 export const getPhotoComments = async (req, res, next) => {
   try {
-    const comments = await Comment.find({ photoId: req.params.photoId });
+    const comments = await Comment.find({ photoId: req.params.photoId }).sort(createdAt);
     res.status(200).json(comments);
   } catch (err) {
     next(err);

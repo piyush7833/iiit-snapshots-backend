@@ -8,7 +8,7 @@ export const addPhoto = async (req, res, next) => {
     const newPhoto = new Photo({ userId: req.user.id, ...req.body });
     const user = await User.findById(req.user.id);
     try {
-      if(user.role==="admin"){
+      if(user.role=="admin"){
         const savedPhoto = await newPhoto.save();
         res.status(200).json(savedPhoto);
       }
@@ -95,7 +95,7 @@ export const recent=async(req,res,next)=>{
 };
 export const random=async(req,res,next)=>{
     try {
-        const photos = await Photo.aggregate([{ $sample: { size: 40 } }]);  //aggregagte function of mongodb will return random photos
+        const photos = await Photo.aggregate([{ $sample: { size: 28 } }]);  //aggregagte function of mongodb will return random photos
         res.status(200).json(photos);
       } catch (err) {
         next(err);

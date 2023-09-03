@@ -8,7 +8,7 @@ export const addVideo = async (req, res, next) => {
     const newVideo = new Video({ userId: req.user.id, ...req.body });
     const user = await User.findById(req.user.id);
     try {
-      if(user.role==="admin"){
+      if(user.role=="admin"){
         const savedVideo = await newVideo.save();
         res.status(200).json(savedVideo);
       }
@@ -95,7 +95,7 @@ export const trend=async(req,res,next)=>{
 };
 export const random=async(req,res,next)=>{
     try {
-        const videos = await Video.aggregate([{ $sample: { size: 40 } }]);  //aggregagte function of mongodb will return random videos
+        const videos = await Video.aggregate([{ $sample: { size: 28 } }]);  //aggregagte function of mongodb will return random videos
         res.status(200).json(videos);
       } catch (err) {
         next(err);
