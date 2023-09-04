@@ -10,6 +10,27 @@ import crypto from 'crypto'
 import bcrypt from "bcryptjs";
 //in this page only mongodb crud operation is used 
 
+export const getUserForSignup = async (req, res, next) => {
+  try {
+    const user = await User.find({ name: req.body.name });
+    if (user.length > 0 ) res.status(200).json(true);
+    if (user.length <= 0) res.status(200).json(false);
+  } catch (error) {
+    console.log(error)
+    res.status(200, false)
+  }
+}
+export const getUserForSignupEmail = async (req, res, next) => {
+  try {
+    const user = await User.find({ email: req.body.email });
+    if (user.length > 0 ) res.status(200).json(true);
+    if (user.length <= 0) res.status(200).json(false);
+  } catch (error) {
+    console.log(error)
+    res.status(200, false)
+  }
+}
+
 export const update = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {
@@ -34,9 +55,9 @@ export const update = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.id);
-    const photos=await Photo.find({userId:req.params.id});
+    const photos = await Photo.find({ userId: req.params.id });
     photos.deleteMany();
-    const videos=await Video.find({userId:req.params.id});
+    const videos = await Video.find({ userId: req.params.id });
     videos.deleteMany();
     res.status(200).json("User has been deleted.");
   } catch (err) {
@@ -47,7 +68,7 @@ export const deleteUser = async (req, res, next) => {
 export const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    var { password, ...others } = user._doc; 
+    var { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
     next(err);
@@ -261,75 +282,74 @@ export const photohistory = async (req, res, next) => {
 };
 
 
-export const verifyEmail=async(req,res,next)=>{
+export const verifyEmail = async (req, res, next) => {
   try {
-		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
-		const token = await Token.findOne({
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
+    const token = await Token.findOne({
       userId: user._id,
-			token: req.params.token,
-		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });  //if token not exist
-		await User.findByIdAndUpdate(user._id,{verified: true });
-
-		res.status(200).send({ message: "Email verified successfully" });
-	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
-	}
+      token: req.params.token,
+    });
+    if (!token) return res.status(400).send({ message: "Invalid link" });  //if token not exist
+    await User.findByIdAndUpdate(user._id, { verified: true });
+    res.status(200).send({ message: "Email verified successfully" });
+  } catch (error) {
+    res.status(500).send({ message: "Internal Server Error" });
+  }
 }
 
 
-export const resetPasswordEmail=async(req,res,next)=>{
+export const resetPasswordEmail = async (req, res, next) => {
   try {
     const user = await User.findOne({ name: req.body.name });
     if (!user) return next(createError(404, "User not found!"));
     let resetToken = await ResetToken.findOne({ userId: user._id });
-    if (resetToken===undefined || resetToken===null) {
+    if (resetToken === undefined || resetToken === null) {
       resetToken = await new ResetToken({
         userId: user._id,
         resetToken: crypto.randomBytes(32).toString("hex"),
       }).save();
     }
-      const url = `${process.env.BASE_URL}users/${user._id}/reset/${resetToken.resetToken}`;
-      await sendEmail(user.email,"Recovery email",emailTemplate(url,"Change Your Password",user.Normalname,"Welcome back to IIITU Snapshots, change your paasword","Change Password","If you didn't want to change password for IIITU Snapshot, you can safely ignore this email."))
-      return res
+    const url = `${process.env.BASE_URL}users/${user._id}/reset/${resetToken.resetToken}`;
+    await sendEmail(user.email, "Recovery email", emailTemplate(url, "Change Your Password", user.Normalname, "Welcome back to IIITU Snapshots, change your paasword", "Change Password", "If you didn't want to change password for IIITU Snapshot, you can safely ignore this email."))
+    return res
       .status(200)
       .send({ message: "An Email sent to your account please reset your password for catching up " });
-  } 
+  }
   catch (error) {
     // console.log(error);
     next(error);
   }
 }
 
-export const resetPasswordVerify=async(req,res,next)=>{
+export const resetPasswordVerify = async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
     // console.log(user);
-		if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
-		const resetToken = await ResetToken.findOne({
+    if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
+    const resetToken = await ResetToken.findOne({
       userId: user._id,
-			resetToken: req.params.resetToken,
-		});
-		if (!resetToken) return res.status(400).send({ message: "Invalid link" });  //if token not exist
+      resetToken: req.params.resetToken,
+    });
+    if (!resetToken) return res.status(400).send({ message: "Invalid link" });  //if token not exist
     res.status(200).json("updated");  //sending updated data to user
   } catch (error) {
     next(error);
     // console.log(error)
   }
 }
-export const resetPassword=async(req,res,next)=>{
+export const resetPassword = async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
-		const resetToken = await ResetToken.findOne({
+    if (!user) return res.status(400).send({ message: "Invalid link" });  //if no such user exist
+    const resetToken = await ResetToken.findOne({
       userId: user._id,
-			resetToken: req.params.resetToken,
-		});
-		if (!resetToken) return res.status(400).send({ message: "Invalid link" });  //if token not exist
+      resetToken: req.params.resetToken,
+    });
+    if (!resetToken) return res.status(400).send({ message: "Invalid link" });  //if token not exist
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    const updatedPwd=await User.findByIdAndUpdate(user._id,{password: hash });
+    const updatedPwd = await User.findByIdAndUpdate(user._id, { password: hash });
     res.status(200).json(updatedPwd);  //sending updated data to user
   } catch (error) {
     next(error);

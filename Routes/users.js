@@ -1,5 +1,5 @@
 import express from "express"
-import { update,getUser,deleteUser,subscribe,unsubscribe,videoLike, videoDislike, photoLike, photoDislike,photounLike,photounDislike,videounLike,videounDislike,videosave,photosave,videoremove,photoremove, videohistory, photohistory,verifyEmail,resetPasswordEmail,resetPasswordVerify,resetPassword} from "../Controller/user.js";
+import { update,getUser,deleteUser,subscribe,unsubscribe,videoLike, videoDislike, photoLike, photoDislike,photounLike,photounDislike,videounLike,videounDislike,videosave,photosave,videoremove,photoremove, videohistory, photohistory,verifyEmail,resetPasswordEmail,resetPasswordVerify,resetPassword,getUserForSignup,getUserForSignupEmail} from "../Controller/user.js";
 import { verifyToken } from "../verifyToken.js";
 const router=express.Router()
 
@@ -9,6 +9,9 @@ router.put("/:id",verifyToken,update) //we will update our user as per this id
 router.delete("/:id",verifyToken,deleteUser) 
 //get user
 router.get("/find/:id",getUser) //add verifytoken if user get without login
+
+router.post("/findnameforsignup",getUserForSignup) //add verifytoken if user get without login
+router.post("/findemailforsignup",getUserForSignupEmail) //add verifytoken if user get without login
 //subscribe user
 router.put("/sub/:id",verifyToken,subscribe) 
 router.put("/videosave/:id",verifyToken,videosave) 
